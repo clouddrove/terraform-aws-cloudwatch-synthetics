@@ -1,0 +1,56 @@
+---
+#
+# This is the canonical configuration for the `README.md`
+# Run `make readme` to rebuild the `README.md`
+#
+
+# Name of this project
+name: Terraform AWS Cloudwatch Alarms
+
+# License of this project
+license: "APACHE"
+
+# Canonical GitHub repo
+github_repo: clouddrove/terraform-aws-cloudwatch-alarms
+
+# Badges to display
+badges:
+  - name: "Terraform"
+    image: "https://img.shields.io/badge/Terraform-v1.1.7-green"
+    url: "https://www.terraform.io"
+  - name: "Licence"
+    image: "https://img.shields.io/badge/License-APACHE-blue.svg"
+    url: "LICENSE.md"
+  - name: "tfsec"
+    image: "https://github.com/clouddrove/terraform-aws-cloudwatch-alarms/actions/workflows/tfsec.yml/badge.svg"
+    url: "https://github.com/clouddrove/terraform-aws-cloudwatch-alarms/actions/workflows/tfsec.yml"
+  - name: "static-checks"
+    image: "https://github.com/clouddrove/terraform-aws-cloudwatch-alarms/actions/workflows/terraform.yml/badge.svg"
+    url: "https://github.com/clouddrove/terraform-aws-cloudwatch-alarms/actions/workflows/terraform.yml"
+
+#  description of this project
+description: |-
+  Terraform module creates Cloudwatch Alarm on AWS for monitoriing AWS services.
+
+# extra content
+include:
+  - "terraform.md"
+
+# How to use this project
+# yamllint disable rule:line-length
+usage: |-
+  Here are some examples of how you can use this module in your inventory structure:
+  ### Basic Example
+  ```hcl
+      module "canaries" {
+        name                    = "canary"
+        environment             = "test"   
+        source                  = "../.."
+        schedule_expression     = "rate(5 minutes)"
+        s3_artifact_bucket      = "my-test-artifact-bucket" # must pre-exist
+        alarm_email             = "test.user@clouddrove.com" # you need to confirm this email address
+        endpoints               = { "test-example" = { url = "https://example.com" } }
+        subnet_ids              = module.subnets.private_subnet_id
+        security_group_ids      = [module.ssh.security_group_ids]    
+      }
+  ```

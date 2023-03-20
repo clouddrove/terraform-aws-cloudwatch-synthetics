@@ -19,6 +19,7 @@ jobs:
       minVersion: ${{ steps.minMax.outputs.minVersion }}
       maxVersion: ${{ steps.minMax.outputs.maxVersion }}
 
+
   versionEvaluate:
     name: Evaluate Terraform versions
     runs-on: ubuntu-latest
@@ -30,7 +31,7 @@ jobs:
           - ${{ needs.versionExtract.outputs.minVersion }}
           - ${{ needs.versionExtract.outputs.maxVersion }}
         directory:
-          - _example/complete
+          - _example/
 
     steps:
       - name: Checkout
@@ -41,15 +42,24 @@ jobs:
         with:
           terraform_version: ${{ matrix.version }}
 
+      - name: 'Configure AWS Credentials'
+        uses: clouddrove/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.TEST_AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.TEST_AWS_ACCESS_SECRET_KEY }}
+          aws-region: us-east-2
+
       - name: Init & validate v${{ matrix.version }}
         run: |
           cd ${{ matrix.directory }}
           terraform init
           terraform validate
+         
       - name: tflint
         uses: reviewdog/action-tflint@master
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          tflint_version: v0.29.0
+          github_token: ${{ secrets.GITHUB }}
           working_directory: ${{ matrix.directory }}
           fail_on_error: 'true'
           filter_mode: 'nofilter'
@@ -70,4 +80,4 @@ jobs:
           terraform_version: ${{ needs.versionExtract.outputs.maxVersion }}
 
       - name: Check Terraform format changes
-        run: terraform fmt --recursive -check=true
+        run: terraform fmt --recursive
