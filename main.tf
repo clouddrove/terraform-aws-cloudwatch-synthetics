@@ -58,7 +58,7 @@ resource "aws_synthetics_canary" "canary" {
     subnet_ids         = var.subnet_ids
     security_group_ids = var.security_group_ids
   }
-  
+
   depends_on = [data.archive_file.canary_archive_file, aws_iam_role_policy_attachment.canary_role_policy]
 }
 
