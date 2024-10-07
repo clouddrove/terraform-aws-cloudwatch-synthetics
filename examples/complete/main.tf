@@ -11,5 +11,5 @@ module "canaries" {
   alarm_email         = "test.user@clouddrove.com" # you need to confirm this email address
   endpoints           = { "test-example" = { url = "https://example.com" } }
   # subnet_ids                = module.subnets.private_subnet_id
-  # security_group_ids        = [module.ssh.security_group_ids]    
+  # security_group_ids        = [module.ssh.security_group_ids]
 }
