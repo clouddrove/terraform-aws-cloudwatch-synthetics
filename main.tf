@@ -17,7 +17,7 @@ module "labels" {
   label_order = var.label_order
 }
 
-#Module      : CLOUDWATCH SYNTHETIC CANARY 
+#Module      : CLOUDWATCH SYNTHETIC CANARY
 #Description : Terraform module creates Cloudwatch Synthetic canaries on AWS for monitoriing Websites.
 
 locals {
@@ -62,7 +62,7 @@ resource "aws_synthetics_canary" "canary" {
   depends_on = [data.archive_file.canary_archive_file, aws_iam_role_policy_attachment.canary_role_policy]
 }
 
-#Module      : IAM ROLE FOR AWS SYNTHETIC CANARY 
+#Module      : IAM ROLE FOR AWS SYNTHETIC CANARY
 #Description : Terraform module creates IAM Role for Cloudwatch Synthetic canaries on AWS for monitoriing Websites.
 
 resource "aws_iam_policy" "canary_policy" {
@@ -162,7 +162,7 @@ resource "aws_iam_role_policy_attachment" "canary_role_policy" {
   policy_arn = aws_iam_policy.canary_policy.arn
 }
 
-#Module      : CLOUDWATCH ALARM FOR AWS SYNTHETIC CANARY 
+#Module      : CLOUDWATCH ALARM FOR AWS SYNTHETIC CANARY
 #Description : Terraform module creates Cloudwatch Alarm for Cloudwatch Synthetic canaries on AWS for monitoriing Websites.
 
 resource "aws_cloudwatch_metric_alarm" "canary_alarm" {
